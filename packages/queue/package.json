@@ -1,0 +1,17 @@
+{
+  "name": "@andriel123/queue",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.4"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.5",
+    "@types/node": "^20.14.11"
+  }
+}

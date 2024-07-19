@@ -8,12 +8,28 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/wweb-bot/dist/index.js",
-            "preLaunchTask": "tsc: build - wweb-bot/tsconfig.json",
+            "console": "externalTerminal",
+            "program": "${workspaceFolder}/apps/wweb-bot/dist/index.js",
+            "preLaunchTask": "tsc: build - apps/wweb-bot/tsconfig.json",
             "outFiles": [
-                "${workspaceFolder}/wweb-bot/dist/**/*.js"
+                "${workspaceFolder}/apps/wweb-bot/dist/**/*.js"
             ],
-            "cwd": "${workspaceFolder}/wweb-bot"
+            "cwd": "${workspaceFolder}/apps/wweb-bot"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "core",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console": "externalTerminal",
+            "program": "${workspaceFolder}/apps/core/dist/index.js",
+            "preLaunchTask": "tsc: build - apps/core/tsconfig.json",
+            "outFiles": [
+                "${workspaceFolder}/apps/core/dist/**/*.js"
+            ],
+            "cwd": "${workspaceFolder}/apps/core"
         }
     ]
 }

@@ -1,19 +1,25 @@
 {
     "compilerOptions": {
         "target": "ES6",
-        "module": "commonjs",
+        "module": "CommonJS",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "outDir": "./dist",
         "rootDir": "./src",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "declaration": true, // Operação para gerar arquivos de declaração .d.ts
         "typeRoots": [
             "./node_modules/@types",
             "./types"
-        ]
+        ],
+        "types": [
+            "node"
+        ],
     },
     "include": [
-        "src/**/*.ts"
+        "src"
     ],
     "exclude": [
         "node_modules"
