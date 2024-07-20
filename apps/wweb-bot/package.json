@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build:queue": "npm --workspace @andriel123/queue run build",
+    "build:wweb-bot": "tsc",
+    "build": "npm run build:queue && npm run build:wweb-bot",
     "start": "node dist/index.js",
-    "dev": "tsc && node dist/index.js",
+    "dev": "npm run build && node dist/index.js",
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "@andriel123/queue": "workspace:*",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js#webpack-exodus"
   },

@@ -46,7 +46,7 @@ const sendMessage = (channel: amqp.Channel, queue: string, message: string) => {
         channel.assertQueue(queue, { durable: true })
         const wasSent = channel.sendToQueue(queue, Buffer.from(message), { persistent: true })
         if (wasSent) {
-            console.log(` [x] Sent '%s'`, message)
+            console.log(` [x] Sent '%s' to queue ${queue}`, message)
             resolve(message)
         } else {
             reject(new Error('Message was not sent'))
@@ -60,7 +60,7 @@ const sendMessage = (channel: amqp.Channel, queue: string, message: string) => {
  * @param queue 
  * @param message 
  */
-export const taskBase = async (host = 'localhost', queue: string, message: string) => {
+export const asyncTask = async (host = 'localhost', queue: string, message: string) => {
     let connection
 
     try {

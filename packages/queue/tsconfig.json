@@ -10,16 +10,12 @@
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
         "declaration": true, // Operação para gerar arquivos de declaração .d.ts
-        "typeRoots": [
-            "./node_modules/@types",
-            "./types"
-        ],
         "types": [
             "node"
-        ],
+        ]
     },
     "include": [
-        "src"
+        "src/**/*"
     ],
     "exclude": [
         "node_modules"
