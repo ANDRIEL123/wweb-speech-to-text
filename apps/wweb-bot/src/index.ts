@@ -1,32 +1,31 @@
-import { syncTask } from '@andriel123/queue';
+import { RabbitMQServer } from '@andriel123/queue';
+import fs from 'fs';
 import { clientBase } from './clientBase/client';
 
 /**
  * Start a bot
  */
-function start() {
+function startBot() {
+    console.log('###### Initialize wweb-bot ######\n')
     const client = clientBase()
 
-    client.on('message_create', async (message: any) => {
-        syncTask('localhost', 'task_queue', 'Olá mundo')
+    // Initialize rabbitMQ
+    const rabbitMQServer = new RabbitMQServer()
+    rabbitMQServer.start('localhost', 'transpile_queue')
 
+    client.on('message_create', async (message: any) => {
         // Verify if is audio
         if (message.hasMedia && message.rawData.mimetype.includes('audio')) {
             const audio = await message.downloadMedia()
 
+            // await rabbitMQServer.sendMessageToQueue(audio.data)
+
             // Save local audio
-            // fs.writeFileSync("audio.ogg", audio.data, { encoding: 'base64' });
-
-            // await taskBase("localhost", "task_queue", "Testando queue")
+            fs.writeFileSync("audio.ogg", audio.data, { encoding: 'base64' });
         }
-
-        // Test return msg
-        //if (msgContent === 'Oi') {
-        //    client.sendMessage(message.from, 'Olá')
-        // }
     })
 }
 
-start()
+startBot()
 
 

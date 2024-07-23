@@ -1,4 +1,4 @@
-import { worker } from '@andriel123/queue'
+import { RabbitMQServer } from '@andriel123/queue'
 
 function callback(messageContent: string) {
     console.log('iniciando processamento da task, conteúdo: ', messageContent)
@@ -11,4 +11,12 @@ function callback(messageContent: string) {
     })
 }
 
-worker('task_queue', 'localhost', (messageContent) => callback(messageContent))
+async function startCore() {
+    console.log('###### Initialize core ######\n')
+    const rabbitMQServer = new RabbitMQServer()
+
+    await rabbitMQServer.start("localhost", 'transpile_queue')
+    await rabbitMQServer.Consume((messageContent) => callback(messageContent))
+}
+
+startCore()

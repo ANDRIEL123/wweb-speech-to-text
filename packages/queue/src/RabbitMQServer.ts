@@ -1,28 +1,43 @@
-import { Channel, connect, Connection, ConsumeMessage, Message } from 'amqplib';
+import { Channel, Connection } from 'amqplib/callback_api';
+import { connectToRabbitMQ, createChannel, declareQueue } from './utils';
 
 export default class RabbitMQServer {
     private connection!: Connection;
     private channel!: Channel;
+    private _queue: string = "";
 
-    constructor(uri: string) {
-        this.start(uri)
-            .then(() => console.log('Initialize connection and channel'))
-            .catch(() => console.log('Error connecting to RabbitMQ'))
+    constructor() { }
+
+    async start(uri: string, queue: string): Promise<void> {
+        this._queue = queue;
+        this.connection = await connectToRabbitMQ(uri)
+        this.channel = await createChannel(this.connection)
+        await declareQueue(this.channel, queue)
+
+        this.channel.prefetch(1)
     }
 
-    async start(uri: string): Promise<void> {
-        this.connection = await connect(uri)
-        this.channel = await this.connection.createChannel()
+    async sendMessageToQueue(message: string) {
+        console.log(`Send message ${message} to queue ${this._queue}`)
+
+        return this.channel.sendToQueue(this._queue, Buffer.from(message))
     }
 
-    async sendMessageToQueue(queue: string, message: string) {
-        return this.channel.sendToQueue(queue, Buffer.from(message))
-    }
+    async Consume(callback: (messageContent: string) => Promise<any>) {
+        console.log(`Start Consumer on queue ${this._queue}...`)
 
-    async Consume(queue: string, callback: (message: ConsumeMessage | null) => Promise<any>) {
-        return this.channel.consume(queue, async (message) => {
-            await callback(message)
-            this.channel.ack(message as Message)
+        return this.channel.consume(this._queue, async (message) => {
+            if (!message) {
+                console.log('Problema on received a message')
+                return
+            }
+
+            const messageContent = message?.content.toString()
+            console.log(`[v] Received: ${messageContent}`)
+
+            await callback(messageContent)
+            console.log('[x] Done')
+            this.channel.ack(message)
         })
     }
 }

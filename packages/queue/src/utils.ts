@@ -1,11 +1,11 @@
 import amqp from 'amqplib/callback_api'
 
 /**
- * Se conecta ao RabbitMQ
+ * Connect to RabbitMQ
  * @param host 
  * @returns 
  */
-const connectToRabbitMQ = (host: string): Promise<amqp.Connection> => {
+export const connectToRabbitMQ = (host: string): Promise<amqp.Connection> => {
     return new Promise((resolve, reject) => {
         amqp.connect(`amqp://${host}`, (error, connection) => {
             if (error) {
@@ -18,11 +18,23 @@ const connectToRabbitMQ = (host: string): Promise<amqp.Connection> => {
 }
 
 /**
- * Realiza a conexão TCP/IP entre o cliente e o servidor RabbitMQ
+ * This makes sure the queue is declared before attempting to consume from it
+ * @param channel 
+ * @param queue 
+ */
+export const declareQueue = (channel: amqp.Channel, queue: string) => {
+    return new Promise((resolve) => {
+        channel.assertQueue(queue, { durable: true })
+        resolve(queue)
+    })
+}
+
+/**
+ * Performs the TCP/IP connection between the client and the RabbitMQ server
  * @param connection 
  * @returns 
  */
-const createChannel = (connection: amqp.Connection): Promise<amqp.Channel> => {
+export const createChannel = (connection: amqp.Connection): Promise<amqp.Channel> => {
     return new Promise((resolve, reject) => {
         connection.createChannel((error: any, channel: amqp.Channel) => {
             if (error) {
@@ -35,7 +47,7 @@ const createChannel = (connection: amqp.Connection): Promise<amqp.Channel> => {
 }
 
 /**
- * Envia uma mensagem via protocolo amqp
+ * Send a message via amqp protocol
  * @param channel 
  * @param queue 
  * @param message 
@@ -55,7 +67,7 @@ const sendMessage = (channel: amqp.Channel, queue: string, message: string) => {
 }
 
 /**
- * Cria uma task que se conecta ao RabbitMQ, cria um canal e envia mensagem
+ * Create a task that connects to RabbitMQ, creates a channel and sends a message
  * @param host 
  * @param queue 
  * @param message 

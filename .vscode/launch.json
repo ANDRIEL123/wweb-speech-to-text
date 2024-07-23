@@ -30,6 +30,15 @@
                 "${workspaceFolder}/apps/core/dist/**/*.js"
             ],
             "cwd": "${workspaceFolder}/apps/core"
+        },
+    ],
+    "compounds": [
+        {
+            "name": "Core + Bot",
+            "configurations": [
+                "wweb-bot",
+                "core"
+            ]
         }
     ]
 }
