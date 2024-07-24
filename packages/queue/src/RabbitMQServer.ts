@@ -18,7 +18,7 @@ export default class RabbitMQServer {
     }
 
     async sendMessageToQueue(message: string) {
-        console.log(`Send message ${message} to queue ${this._queue}`)
+        console.log(`Send message to queue ${this._queue}`)
 
         return this.channel.sendToQueue(this._queue, Buffer.from(message))
     }
@@ -33,7 +33,7 @@ export default class RabbitMQServer {
             }
 
             const messageContent = message?.content.toString()
-            console.log(`[v] Received: ${messageContent}`)
+            console.log('[v] Received message')
 
             await callback(messageContent)
             console.log('[x] Done')

@@ -1,0 +1,1 @@
+# Pacotes comuns para os apps

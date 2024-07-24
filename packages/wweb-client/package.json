@@ -1,0 +1,10 @@
+{
+  "name": "@andriel123/wweb-client",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  }
+}

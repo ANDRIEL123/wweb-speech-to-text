@@ -1,0 +1,70 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build queue",
+            "type": "shell",
+            "command": "tsc -p packages/queue/tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
+            "label": "build types",
+            "type": "shell",
+            "command": "tsc -p packages/types/tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
+            "label": "build wweb-client",
+            "type": "shell",
+            "command": "tsc -p packages/wweb-client/tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
+            "label": "build wweb-bot",
+            "type": "shell",
+            "command": "tsc -p apps/wweb-bot/tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
+            "label": "build core",
+            "type": "shell",
+            "command": "tsc -p apps/core/tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
+            "label": "build packages",
+            "dependsOn": [
+                "build queue",
+                "build types",
+                "build wweb-client"
+            ],
+            "dependsOrder": "sequence"
+        },
+        {
+            "label": "task wweb-bot",
+            "dependsOn": [
+                "build packages",
+                "build wweb-bot"
+            ],
+            "dependsOrder": "sequence"
+        },
+        {
+            "label": "task core",
+            "dependsOn": [
+                "build packages",
+                "build core"
+            ],
+            "dependsOrder": "sequence"
+        }
+    ]
+}

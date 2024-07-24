@@ -1,13 +1,13 @@
-import { RabbitMQServer } from '@andriel123/queue';
-import fs from 'fs';
-import { clientBase } from './clientBase/client';
+import { RabbitMQServer } from '@andriel123/queue'
+import { WwebAudio } from '@andriel123/types'
+import { useWwebClient } from '@andriel123/wweb-client'
 
 /**
  * Start a bot
  */
-function startBot() {
+async function startBot() {
     console.log('###### Initialize wweb-bot ######\n')
-    const client = clientBase()
+    const client = await useWwebClient()
 
     // Initialize rabbitMQ
     const rabbitMQServer = new RabbitMQServer()
@@ -18,14 +18,22 @@ function startBot() {
         if (message.hasMedia && message.rawData.mimetype.includes('audio')) {
             const audio = await message.downloadMedia()
 
-            // await rabbitMQServer.sendMessageToQueue(audio.data)
+            const dataToSend: WwebAudio = {
+                from: message.from,
+                author: message.author,
+                to: message.to,
+                audioData: {
+                    data: audio.data,
+                    mimetype: audio.mimetype,
+                    filename: audio.filename,
+                    filesize: audio.filesize
+                }
+            }
 
-            // Save local audio
-            fs.writeFileSync("audio.ogg", audio.data, { encoding: 'base64' });
+            // Send serialized audio data to processing queue
+            await rabbitMQServer.sendMessageToQueue(JSON.stringify(dataToSend))
         }
     })
 }
 
 startBot()
-
-

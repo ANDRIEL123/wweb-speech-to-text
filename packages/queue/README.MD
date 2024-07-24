@@ -1,0 +1,1 @@
+# Lib para utilização da fila de processamento com RabbitMQ

@@ -9,9 +9,9 @@
         "rootDir": "./src",
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
-        "typeRoots": [
-            "node_modules",
-            "types"
+        "declaration": true, // Operação para gerar arquivos de declaração .d.ts
+        "types": [
+            "node"
         ]
     },
     "include": [

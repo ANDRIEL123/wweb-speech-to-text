@@ -10,7 +10,7 @@
             ],
             "console": "externalTerminal",
             "program": "${workspaceFolder}/apps/wweb-bot/dist/index.js",
-            "preLaunchTask": "tsc: build - apps/wweb-bot/tsconfig.json",
+            "preLaunchTask": "task wweb-bot",
             "outFiles": [
                 "${workspaceFolder}/apps/wweb-bot/dist/**/*.js"
             ],
@@ -25,12 +25,12 @@
             ],
             "console": "externalTerminal",
             "program": "${workspaceFolder}/apps/core/dist/index.js",
-            "preLaunchTask": "tsc: build - apps/core/tsconfig.json",
+            "preLaunchTask": "task core",
             "outFiles": [
                 "${workspaceFolder}/apps/core/dist/**/*.js"
             ],
             "cwd": "${workspaceFolder}/apps/core"
-        },
+        }
     ],
     "compounds": [
         {
@@ -38,7 +38,8 @@
             "configurations": [
                 "wweb-bot",
                 "core"
-            ]
+            ],
+            "preLaunchTask": "build packages" // Build packages before execute
         }
     ]
 }

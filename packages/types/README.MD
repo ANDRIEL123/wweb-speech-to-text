@@ -1,0 +1,1 @@
+# Tipos comuns para os apps
