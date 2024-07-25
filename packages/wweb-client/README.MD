@@ -1,1 +1,1 @@
-# Pacote base para utilização do wweb
+# Pacote base para utilização do wweb (lib whatsapp-web.js)

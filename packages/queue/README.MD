@@ -1,1 +1,1 @@
-# Lib para utilização da fila de processamento com RabbitMQ
+# Pacote para utilização da fila de processamento com RabbitMQ

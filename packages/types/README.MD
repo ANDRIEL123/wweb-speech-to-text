@@ -1,1 +1,1 @@
-# Tipos comuns para os apps
+# Pacote de tipos comuns para os apps

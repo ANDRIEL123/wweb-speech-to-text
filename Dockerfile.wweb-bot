@@ -1,0 +1,37 @@
+FROM node:20.15.1-alpine3.20
+
+WORKDIR /app
+
+# Copy package.json and package-lock.json monorepo files
+COPY package*.json ./
+
+# Copy package.json from packages
+COPY packages/queue/package.json ./packages/queue/
+COPY packages/types/package.json ./packages/types/
+COPY packages/wweb-client/package.json ./packages/wweb-client/
+
+# Copy package.json from wweb-bot
+COPY apps/wweb-bot/package.json ./apps/wweb-bot/
+
+# Install chromium
+RUN apk add --no-cache chromium
+
+# Install dependencies
+RUN npm install
+
+# Copy all files
+COPY . .
+
+# Define workdir from wweb-bot
+WORKDIR /app/apps/wweb-bot
+
+# Configure Puppeteer to use Chromium on system install
+ENV PUPPETEER_SKIP_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Build wweb-bot
+RUN npm run build
+
+# Start wweb-bot
+CMD ["npm", "start"]
+
