@@ -2,7 +2,58 @@ version: '3.8'
 
 services:
   rabbitmq:
-    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    image: rabbitmq:3.12-management-alpine
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - wweb
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  wweb-bot:
+    container_name: wweb-bot
+    build:
+      context: .
+      dockerfile: Dockerfile.wweb-bot
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      PUPPETEER_SKIP_DOWNLOAD: 'true'
+      PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium-browser
+      RABBITMQ_HOST: rabbitmq
+    volumes:
+      - wweb-bot-data:/app/apps/wweb-bot
+    networks:
+      - wweb
+
+  core:
+    container_name: core
+    build:
+      context: .
+      dockerfile: Dockerfile.core
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      PUPPETEER_SKIP_DOWNLOAD: 'true'
+      PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium-browser
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      RABBITMQ_HOST: rabbitmq
+    volumes:
+      - core-data:/app/apps/core
+    networks:
+      - wweb
+
+networks:
+  wweb:
+    driver: bridge
+
+volumes:
+  wweb-bot-data:
+  core-data:

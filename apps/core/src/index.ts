@@ -29,9 +29,12 @@ function callback(messageContent: string, client: Client) {
 async function startCore() {
     console.log('###### Initialize core ######\n')
     const client = await useWwebClient()
-    const rabbitMQServer = new RabbitMQServer()
 
-    await rabbitMQServer.start("localhost", 'transpile_queue')
+    // Initialize RabbitMQ
+    const rabbitMQServer = new RabbitMQServer()
+    await rabbitMQServer.start(process.env.RABBITMQ_HOST ?? "localhost", 'transpile_queue')
+
+    // Start consume
     await rabbitMQServer.Consume((messageContent) => callback(messageContent, client))
 }
 

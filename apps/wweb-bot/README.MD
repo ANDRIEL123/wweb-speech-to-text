@@ -1,3 +1,3 @@
-# Start DEV project
+# App to start a wweb-bot
 
-npm run dev
+Integrate with whatsapp web api and send audio messages to rabbitMQ

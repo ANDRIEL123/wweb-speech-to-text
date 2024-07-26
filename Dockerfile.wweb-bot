@@ -2,10 +2,10 @@ FROM node:20.15.1-alpine3.20
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json monorepo files
+# Copy root package.json and package-lock.json
 COPY package*.json ./
 
-# Copy package.json from packages
+# Copy all package.json files from packages
 COPY packages/queue/package.json ./packages/queue/
 COPY packages/types/package.json ./packages/types/
 COPY packages/wweb-client/package.json ./packages/wweb-client/
@@ -34,4 +34,3 @@ RUN npm run build
 
 # Start wweb-bot
 CMD ["npm", "start"]
-

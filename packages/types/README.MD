@@ -1,1 +1,1 @@
-# Pacote de tipos comuns para os apps
+# Package of common types for apps

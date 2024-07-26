@@ -13,6 +13,9 @@ COPY packages/wweb-client/package.json ./packages/wweb-client/
 # Copy package.json from core
 COPY apps/core/package.json ./apps/core/
 
+# Install chromium
+RUN apk add --no-cache chromium
+
 # Install dependencies
 RUN npm install
 
@@ -21,6 +24,10 @@ COPY . .
 
 # Define workdir from core
 WORKDIR /app/apps/core
+
+# Configure Puppeteer to use Chromium on system install
+ENV PUPPETEER_SKIP_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 # Build core
 RUN npm run build

@@ -5,8 +5,8 @@ export function useWwebClient(): Promise<Client> {
     return new Promise(async (resolve, reject) => {
         const client = new Client({
             puppeteer: {
-                executablePath: process.env.CHROME_BIN || undefined,
-                browserWSEndpoint: process.env.CHROME_WS || undefined,
+                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
+                browserWSEndpoint: process.env.PUPPETEER_CHROME_WS || undefined,
                 args: ["--no-sandbox", "--disable-setuid-sandbox"]
             },
             webVersionCache: {
@@ -20,12 +20,10 @@ export function useWwebClient(): Promise<Client> {
             .then(() => {
                 console.log('Wweb Client initialize')
             })
-            .catch((error: any) => {
-                console.error(`Client initialize failed ${error}`)
-                reject(error)
+            .catch((reason: any) => {
+                console.error(`Client initialize failed ${reason}`)
+                reject(reason)
             })
-
-
 
         client.on('ready', () => {
             console.log('Wweb Client is ready!')
@@ -34,6 +32,16 @@ export function useWwebClient(): Promise<Client> {
 
         client.on('qr', (qr: any) => {
             qrcode.generate(qr, { small: true })
+        })
+
+        client.on('auth_failure', (msg: string) => {
+            console.error('Authentication failure:', msg);
+            reject(new Error('Authentication failure'));
+        })
+
+        client.on('disconnected', (reason: string) => {
+            console.log('Client was logged out', reason);
+            reject(new Error('Client was logged out'));
         })
     })
 }

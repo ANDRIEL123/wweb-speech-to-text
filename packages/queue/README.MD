@@ -1,1 +1,1 @@
-# Pacote para utilização da fila de processamento com RabbitMQ
+# Package for using the processing queue with RabbitMQ

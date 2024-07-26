@@ -11,7 +11,7 @@ async function startBot() {
 
     // Initialize rabbitMQ
     const rabbitMQServer = new RabbitMQServer()
-    rabbitMQServer.start('localhost', 'transpile_queue')
+    await rabbitMQServer.start(process.env.RABBITMQ_HOST ?? 'localhost', 'transpile_queue')
 
     client.on('message_create', async (message: any) => {
         // Verify if is audio
