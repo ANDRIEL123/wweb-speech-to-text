@@ -4,7 +4,7 @@ This project aims to be able to check the content of audios received via WhatsAp
 
 ## Demonstration
 
-https://youtu.be/b9dcZyHvwD8
+https://youtu.be/FD1D6f6EbEw
 
 ## Built With
 
@@ -41,6 +41,7 @@ If you already have it, you need to create an OPENAI_API_KEY environment variabl
 
 https://platform.openai.com/docs/quickstart/step-2-set-up-your-api-key
 
+Run on Docker
 1. Clone the repository:
     ```sh
     git clone https://github.com/ANDRIEL123/wweb-speech-to-text.git
@@ -50,6 +51,17 @@ https://platform.openai.com/docs/quickstart/step-2-set-up-your-api-key
     ```sh
     docker-compose up --build
     ```
+
+Local run (VS Code)
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/ANDRIEL123/wweb-speech-to-text.git
+    ```
+2. Navigate to the project directory
+3. npm install
+4. Run Core + Bot with Run and Debug
+
+![image](https://github.com/user-attachments/assets/4dca3430-986e-455e-a6d6-1fff388e165d)
 
 ## Contributing
 
