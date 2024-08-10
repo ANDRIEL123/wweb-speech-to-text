@@ -8,8 +8,10 @@
   },
   "scripts": {
     "build:queue": "npm --workspace @andriel123/queue run build",
+    "build:types": "npm --workspace @andriel123/types run build",
+    "build:wweb-client": "npm --workspace @andriel123/wweb-client run build",
     "build:core": "tsc",
-    "build": "npm run build:queue && npm run build:core",
+    "build": "npm run build:queue && npm run build:types && npm run build:wweb-client && npm run build:core",
     "start": "node dist/index.js",
     "dev": "npm run build && node dist/index.js",
     "watch": "tsc --watch"

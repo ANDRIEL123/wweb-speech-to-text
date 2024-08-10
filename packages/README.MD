@@ -1,1 +1,1 @@
-# Pacotes comuns para os apps
+# Common packages

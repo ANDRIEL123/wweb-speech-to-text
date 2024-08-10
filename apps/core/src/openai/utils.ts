@@ -2,7 +2,7 @@ import fs from 'fs';
 import { Readable } from "stream";
 
 /**
- * Cria arquivo de áudio temporário
+ * Create temporary audio file
  * @param base64AudioString 
  * @returns 
  */
@@ -12,15 +12,14 @@ export function createAudioFile(base64AudioString: string): Promise<string> {
         const buffer = Buffer.from(base64AudioString, 'base64');
 
         const readStream = new Readable()
-        readStream._read = () => { } // _read é necessário, mas pode ser uma função vazia
+        readStream._read = () => { }
         readStream.push(buffer)
-        readStream.push(null) // Sem mais dados a serem enviados
+        readStream.push(null) // No data to send
 
         const fileName = 'tempAudioFile.mp3'
 
         const writeStream = fs.createWriteStream(fileName)
 
-        // Encadeia os eventos de 'finish' e 'error'
         readStream.pipe(writeStream)
 
         writeStream.on('finish', () => {
@@ -34,7 +33,7 @@ export function createAudioFile(base64AudioString: string): Promise<string> {
 }
 
 /**
- * Deleta arquivo de áudio temporário
+ * Delete temporary audio file
  * @param filePath 
  */
 export function deleteAudioFile(filePath: string) {
